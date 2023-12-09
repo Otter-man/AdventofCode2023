@@ -1,3 +1,6 @@
+import datetime
+import math
+
 with open('inputs/day_8_inputs.txt') as f:
     inputs = f.readlines()
 
@@ -22,11 +25,8 @@ def map_parser(map_original):
 
     return map_dict
 
-if __name__ == "__main__":
-    main_input = inputs
 
-    step_gen = instruction_generator(main_input[0])
-    map_dict = map_parser(main_input[2:])
+def part1(step_gen, map_dict):
     current_point = "AAA"
     steps = 0
     while True:
@@ -35,4 +35,36 @@ if __name__ == "__main__":
         steps += 1
         if current_point == "ZZZ":
             break
-    print(steps)
+    return steps
+
+
+def part2(step_gen, map_dict):
+    all_current_points = [point for point in map_dict if point.endswith("A")]
+    steps = 0
+    cycle_ends = []
+    for c, point in enumerate(all_current_points):
+        while True:
+            next_step = next(step_gen)
+            point = map_dict[point][next_step]
+            steps += 1
+            if point.endswith("Z"):
+                cycle_ends.append(steps)
+                steps = 0
+                break
+
+    answer = math.lcm(*cycle_ends)
+    return answer
+
+
+if __name__ == "__main__":
+    main_input = inputs
+
+    step_gen = instruction_generator(main_input[0])
+    map_dict = map_parser(main_input[2:])
+
+    start_time = datetime.datetime.now()
+    print(part1(step_gen, map_dict))
+    print(datetime.datetime.now() - start_time)
+    start_time = datetime.datetime.now()
+    print(part2(step_gen, map_dict))
+    print(datetime.datetime.now() - start_time)
