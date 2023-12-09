@@ -1,5 +1,3 @@
-from collections import Counter
-
 with open('inputs/day_9_input.txt') as f:
     inputs = f.readlines()
 
@@ -19,8 +17,7 @@ def prepare_line_for_prediction(line, all_lines):
 
     if new_line:
         all_lines.append(new_line)
-    zero_check = Counter(i for i in new_line)
-    if zero_check[0] != len(new_line):
+    if new_line.count(0) != len(new_line):
         return prepare_line_for_prediction(new_line, all_lines)
     else:
         return all_lines
@@ -62,6 +59,7 @@ def part_2(inputs):
         all_lines = []
 
     return sum(answer)
+
 
 if __name__ == "__main__":
     print(part_1(inputs))
