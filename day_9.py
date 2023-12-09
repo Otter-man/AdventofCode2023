@@ -50,6 +50,19 @@ def part_1(inputs):
 
     return sum(answer)
 
+def part_2(inputs):
+    answer = []
+    all_lines = []
+    for line in inputs:
+        line = [int(i) for i in line.split()]
+        line.reverse()
+        all_lines.append(line)
+        prepare_line_for_prediction(line, all_lines)
+        answer.append(predict_ending(all_lines))
+        all_lines = []
+
+    return sum(answer)
 
 if __name__ == "__main__":
     print(part_1(inputs))
+    print(part_2(inputs))
